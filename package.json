@@ -1,8 +1,8 @@
 {
-  "name": "node-api",
-  "main": "server.js",
+  "name": "apish",
+  "main": "apish.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node apish.js"
   },
   "dependencies": {
     "body-parser": "^1.0.2",

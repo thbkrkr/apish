@@ -1,4 +1,4 @@
-# apishh - Rest API for shell scripts
+# apish - Rest API for shell scripts
 
 Install
 
@@ -6,6 +6,6 @@ Install
 
 Run
 
-	node src/api.js
+	node apish.js
 
-Write shell scripts that return JSON in a directory in scripts/. 
+Write shell scripts that return JSON in a directory in [scripts](scripts).

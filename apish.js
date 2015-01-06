@@ -15,9 +15,6 @@ var scriptsDir = process.env.SCRIPTS_DIR || './scripts';
 
 var router = express.Router();
 
-var Sandbox = require('sandbox');
-var s = new Sandbox();
-
 // ------------------------------------------------
 // Home
 
@@ -34,7 +31,7 @@ router.get('/', function(req, res) {
 });
 
 // ------------------------------------------------
-// Scripts list
+// List all scripts
 
 router.get('/!', function(req, res) {
     var files   = '[';
@@ -57,7 +54,7 @@ router.get('/!', function(req, res) {
 // ------------------------------------------------
 // Script execution
 
-var regexp = /^[A-Za-z0-9\-]*$/;
+var regexpParameter = /^[A-Za-z0-9\-]*$/;
 
 router.get('/!/:dir/:script', function(req, res) {
 
@@ -65,9 +62,10 @@ router.get('/!/:dir/:script', function(req, res) {
     var script = req.params.script;
     var param = '';
 
+    // Valid param p with a regexp
     var p = req.query.p;
     if (p) {
-        if (regexp.test(p)) {
+        if (regexpParameter.test(p)) {
             param = ' ' + p;
         } else {
             res.statusCode = 400;
@@ -98,6 +96,11 @@ router.get('/!/:dir/:script', function(req, res) {
     });
 });
 
+// POC JS remote execution in a sandbox
+
+var Sandbox = require('sandbox');
+var s = new Sandbox();
+
 router.post('/!/js', function(req, res) {
     var code = '(function(data) {' + req.body.script + '})('+JSON.stringify(req.body.data)+')';
     s.run(code , function(output) {
@@ -111,6 +114,8 @@ router.post('/!/js', function(req, res) {
         res.json(output.result);
     });
 });
+
+// Run server
 
 app.use('/', router);
 app.listen(port);
